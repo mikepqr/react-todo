@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Tasklist extends React.Component {
-  handleChange(event, taskId) {
-    console.log(event)
+  handleChange(_, taskId) {
     this.props.toggleTaskDone(taskId)
   }
 
@@ -14,6 +13,8 @@ class Tasklist extends React.Component {
         <li key={task.id}>
         <input
           defaultChecked={task.done}
+          // onChange is passed a single argument, the event, by the browser. We
+          // need it to know about the task.id, so we make it a closure.
           onChange={(event) => this.handleChange(event, task.id)}
           type="checkbox"
         />
