@@ -10,20 +10,21 @@ class Tasklist extends React.Component {
   render() {
     const items = (
       this.props.tasks.map((task) =>
-        <li key={task.id}>
+        <li key={task.id}><label>
         <input
           defaultChecked={task.done}
           // onChange is passed a single argument, the event, by the browser. We
           // need it to know about the task.id, so we make it a closure.
           onChange={(event) => this.handleChange(event, task.id)}
           type="checkbox"
+          className="mx-2"
         />
-        <span className={task.done ? "line-through text-gray-500" : ""}>{task.text}</span>
-        </li>
+        <span className={task.done ? "line-through text-gray-400" : ""}>{task.text}</span>
+        </label></li>
       )
     )
     return (
-      <ul className="list-none">
+      <ul className="list-none my-2">
         {items}
       </ul>
     )
@@ -55,18 +56,11 @@ class Taskentry extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input type="text" value={this.state.taskText} onChange={this.handleChange} />
-        <input type="submit" value="Add task" />
+        <input className="border" type="text" value={this.state.taskText} onChange={this.handleChange} />
+        <input className="border mx-2 px-2" type="submit" value="Add task" />
       </form>
     )
   }
-}
-
-function Remaining(props) {
-  const remaining = props.tasks.filter((task) => !task.done)
-  return (
-    <div>Remaining tasks: {remaining.length}</div>
-  )
 }
 
 class App extends React.Component {
@@ -93,11 +87,12 @@ class App extends React.Component {
     const tasks = this.state.tasks;
     const maxId = Math.max(...this.state.tasks.map((task) => task.id))
     this.setState({
-      tasks: tasks.concat({done:false, text: taskText, id: maxId + 1})
+      tasks: [{done:false, text: taskText, id: maxId + 1}].concat(tasks)
     })
   }
 
-  clearDone() {
+  clearDone(event) {
+    event.preventDefault()
     this.setState({
       tasks: this.state.tasks.filter((task) => !task.done)
     })
@@ -105,16 +100,18 @@ class App extends React.Component {
 
   render() {
     const clearDoneButton = (
-      <button onClick={() => this.clearDone()}>Clear done</button>
+      <form onSubmit={(event) => this.clearDone(event)}>
+        <input className="border px-2" type="submit" value="Clear done" />
+      </form>
     )
     return (
-      <div>
+      <div className="px-5 py-5">
+        <h1 className="font-bold text-lg">Todo</h1>
         <Taskentry addTask={(taskText) => this.addTask(taskText)} />
         <Tasklist
           tasks={this.state.tasks}
           toggleTaskDone={(taskId) => this.toggleTaskDone(taskId)}
         />
-        <Remaining tasks={this.state.tasks} />
         {clearDoneButton}
       </div>
     )
