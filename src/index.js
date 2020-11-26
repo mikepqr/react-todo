@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './tailwind.css';
 
 class Tasklist extends React.Component {
   handleChange(_, taskId) {
@@ -18,12 +18,12 @@ class Tasklist extends React.Component {
           onChange={(event) => this.handleChange(event, task.id)}
           type="checkbox"
         />
-        {task.text}
+        <span class={task.done ? "line-through text-gray-500" : ""}>{task.text}</span>
         </li>
       )
     )
     return (
-      <ul>
+      <ul class="list-none">
         {items}
       </ul>
     )
