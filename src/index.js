@@ -3,17 +3,27 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Tasklist extends React.Component {
+  handleChange(event, taskId) {
+    console.log(event)
+    this.props.toggleTaskDone(taskId)
+  }
+
   render() {
+    const items = (
+      this.props.tasks.map((task) =>
+        <li key={task.id}>
+        <input
+          defaultChecked={task.done}
+          onChange={(event) => this.handleChange(event, task.id)}
+          type="checkbox"
+        />
+        {task.text}
+        </li>
+      )
+    )
     return (
       <ul>
-      {
-        this.props.tasks.map((task, index) =>
-          <li key={index}>
-          <input defaultChecked={task.done} type="checkbox" />
-          {task.text}
-          </li>
-        )
-      }
+        {items}
       </ul>
     )
   }
@@ -63,16 +73,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       tasks: [
-        {done: true, text: 'Buy milk'},
-        {done: false, text: 'Call mum'}
+        {id: 0, done: true, text: 'Buy milk'},
+        {id: 1, done: false, text: 'Call mum'}
       ]
     }
   }
 
+  toggleTaskDone(taskId) {
+    const tasks = this.state.tasks
+    const idx = this.state.tasks.findIndex((task) => task.id === taskId)
+    tasks[idx].done = (tasks[idx].done ? false : true)
+    this.setState({
+      tasks
+    })
+  }
+
   addTask(taskText) {
     const tasks = this.state.tasks;
+    const maxId = Math.max(...this.state.tasks.map((task) => task.id))
     this.setState({
-      tasks: tasks.concat({done:false, text: taskText})
+      tasks: tasks.concat({done:false, text: taskText, id: maxId + 1})
     })
   }
 
@@ -80,7 +100,10 @@ class App extends React.Component {
     return (
       <div>
         <Taskentry addTask={(taskText) => this.addTask(taskText)} />
-        <Tasklist tasks={this.state.tasks} />
+        <Tasklist
+          tasks={this.state.tasks}
+          toggleTaskDone={(taskId) => this.toggleTaskDone(taskId)}
+        />
         <Remaining tasks={this.state.tasks} />
       </div>
     )
