@@ -17,7 +17,7 @@ class Tasklist extends React.Component {
           // need it to know about the task.id, so we make it a closure.
           onChange={(event) => this.handleChange(event, task.id)}
           type="checkbox"
-          className="mx-2"
+          className="mr-2"
         />
         <span className={task.done ? "line-through text-gray-400" : ""}>{task.text}</span>
         </label></li>
@@ -47,6 +47,9 @@ class Taskentry extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+    if (this.state.taskText === '') {
+      return
+    }
     this.props.addTask(this.state.taskText)
     this.setState({
       taskText: ''
