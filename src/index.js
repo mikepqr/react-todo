@@ -11,15 +11,15 @@ class Tasklist extends React.Component {
     const items = (
       this.props.tasks.map((task) =>
         <li key={task.id}><label>
-        <input
-          defaultChecked={task.done}
-          // onChange is passed a single argument, the event, by the browser. We
-          // need it to know about the task.id, so we make it a closure.
-          onChange={(event) => this.handleChange(event, task.id)}
-          type="checkbox"
-          className="mr-2"
-        />
-        <span className={task.done ? "line-through text-gray-400" : ""}>{task.text}</span>
+          <input
+            defaultChecked={task.done}
+            // onChange is passed a single argument, the event, by the browser. We
+            // need it to know about the task.id, so we make it a closure.
+            onChange={(event) => this.handleChange(event, task.id)}
+            type="checkbox"
+            className="mr-2"
+          />
+          <span className={task.done ? "line-through text-gray-400" : ""}>{task.text}</span>
         </label></li>
       )
     )
@@ -61,14 +61,17 @@ class Taskentry extends React.Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <input
-          className="border" type="text" autofocus="autofocus"
-          value={this.state.taskText} onChange={this.handleChange}
+          className="border"
+          type="text"
+          autofocus="autofocus"
+          value={this.state.taskText}
+          onChange={this.handleChange}
         />
         <input
           className={"border mx-2 px-2 " + (isTask ? "" : "text-gray-400")}
           type="submit"
           value="Add task"
-      />
+        />
       </form>
     )
   }
@@ -99,6 +102,7 @@ class App extends React.Component {
     const maxId = this.state.tasks.length ?
       Math.max(...this.state.tasks.map((task) => task.id)) : 0
     this.setState({
+      // put new task at start of list
       tasks: [{done:false, text: taskText, id: maxId + 1}].concat(tasks)
     })
   }
