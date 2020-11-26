@@ -18,12 +18,12 @@ class Tasklist extends React.Component {
           onChange={(event) => this.handleChange(event, task.id)}
           type="checkbox"
         />
-        <span class={task.done ? "line-through text-gray-500" : ""}>{task.text}</span>
+        <span className={task.done ? "line-through text-gray-500" : ""}>{task.text}</span>
         </li>
       )
     )
     return (
-      <ul class="list-none">
+      <ul className="list-none">
         {items}
       </ul>
     )
@@ -97,7 +97,16 @@ class App extends React.Component {
     })
   }
 
+  clearDone() {
+    this.setState({
+      tasks: this.state.tasks.filter((task) => !task.done)
+    })
+  }
+
   render() {
+    const clearDoneButton = (
+      <button onClick={() => this.clearDone()}>Clear done</button>
+    )
     return (
       <div>
         <Taskentry addTask={(taskText) => this.addTask(taskText)} />
@@ -106,6 +115,7 @@ class App extends React.Component {
           toggleTaskDone={(taskId) => this.toggleTaskDone(taskId)}
         />
         <Remaining tasks={this.state.tasks} />
+        {clearDoneButton}
       </div>
     )
   }
