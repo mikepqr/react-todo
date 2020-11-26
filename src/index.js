@@ -60,7 +60,10 @@ class Taskentry extends React.Component {
     const isTask = this.state.taskText !== ''
     return (
       <form onSubmit={this.handleSubmit}>
-        <input className="border" type="text" value={this.state.taskText} onChange={this.handleChange} />
+        <input
+          className="border" type="text" autofocus="autofocus"
+          value={this.state.taskText} onChange={this.handleChange}
+        />
         <input
           className={"border mx-2 px-2 " + (isTask ? "" : "text-gray-400")}
           type="submit"
