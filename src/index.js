@@ -96,7 +96,8 @@ class App extends React.Component {
 
   addTask(taskText) {
     const tasks = this.state.tasks;
-    const maxId = Math.max(...this.state.tasks.map((task) => task.id))
+    const maxId = this.state.tasks.length ?
+      Math.max(...this.state.tasks.map((task) => task.id)) : 0
     this.setState({
       tasks: [{done:false, text: taskText, id: maxId + 1}].concat(tasks)
     })
