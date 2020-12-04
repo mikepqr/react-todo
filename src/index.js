@@ -95,12 +95,9 @@ class Project extends React.Component {
     this.state = {
       tasks: DEFAULT_TASKS
     };
-    this.handleChangeTaskDone = this.handleChangeTaskDone.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.clearDone = this.clearDone.bind(this);
   }
 
-  handleChangeTaskDone(taskId) {
+  handleChangeTaskDone = (taskId) => {
     const tasks = this.state.tasks;
     const idx = this.state.tasks.findIndex((task) => task.id === taskId);
     tasks[idx].done = tasks[idx].done ? false : true;
@@ -109,7 +106,7 @@ class Project extends React.Component {
     });
   }
 
-  addTask(taskText) {
+  addTask = (taskText) => {
     const tasks = this.state.tasks;
     const maxId = this.state.tasks.length
       ? Math.max(...this.state.tasks.map((task) => task.id))
@@ -120,7 +117,7 @@ class Project extends React.Component {
     });
   }
 
-  clearDone(event) {
+  clearDone = (event) => {
     event.preventDefault();
     this.setState({
       tasks: this.state.tasks.filter((task) => !task.done),
