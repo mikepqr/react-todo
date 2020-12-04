@@ -93,7 +93,9 @@ class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: DEFAULT_TASKS,
+      // Deep copy DEFAULT_TASKS, otherwise Projects share state. Round trip to
+      // JSON is a simple way to do deep copy.
+      tasks: JSON.parse(JSON.stringify(DEFAULT_TASKS)),
       projectName: "Project",
     };
   }
