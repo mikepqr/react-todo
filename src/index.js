@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './tailwind.css';
 
+const DEFAULT_TASKS = [
+  { id: 0, done: true, text: 'Buy milk' },
+  { id: 1, done: false, text: 'Call mum' },
+]
+
 class NewTaskEntry extends React.Component {
   constructor(props) {
     super(props);
@@ -48,47 +53,54 @@ class NewTaskEntry extends React.Component {
   }
 }
 
-class TaskList extends React.Component {
-  handleChange(_, taskId) {
-    this.props.toggleTaskDone(taskId);
-  }
+function ClearDoneButton(props) {
+  return (
+      <form onSubmit={props.clearDone}>
+        <input className="border px-2" type="submit" value="Clear done" />
+      </form>
+  )
+}
 
-  render() {
-    const items = this.props.tasks.map((task) => (
-      <li key={task.id}>
-        <label>
-          <input
-            defaultChecked={task.done}
-            // onChange is passed a single argument, the event, by the browser. We
-            // need it to know about the task.id, so we make it a closure.
-            onChange={(event) => this.handleChange(event, task.id)}
-            type="checkbox"
-            className="mr-2"
-          />
-          <span className={task.done ? 'line-through text-gray-400' : ''}>
-            {task.text}
-          </span>
-        </label>
-      </li>
-    ));
-    return <ul className="list-none my-2">{items}</ul>;
-  }
+function TaskListItem(props) {
+  return (
+    <li key={props.task.id}>
+      <label>
+        <input
+          defaultChecked={props.task.done}
+          onChange={props.onChangeTaskIdDone}
+          type="checkbox"
+          className="mr-2"
+        />
+        <span className={props.task.done ? 'line-through text-gray-400' : ''}>
+          {props.task.text}
+        </span>
+      </label>
+    </li>
+  )
+}
+
+function TaskList(props) {
+  const items = props.tasks.map((task) => (
+    <TaskListItem
+      task={task}
+      onChangeTaskIdDone={() => props.onChangeTaskDone(task.id)}
+    />
+  ));
+  return <ul className="list-none my-2">{items}</ul>;
 }
 
 class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [
-        { id: 0, done: true, text: 'Buy milk' },
-        { id: 1, done: false, text: 'Call mum' },
-      ],
+      tasks: DEFAULT_TASKS
     };
-    this.toggleTaskDone = this.toggleTaskDone.bind(this);
+    this.handleChangeTaskDone = this.handleChangeTaskDone.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.clearDone = this.clearDone.bind(this);
   }
 
-  toggleTaskDone(taskId) {
+  handleChangeTaskDone(taskId) {
     const tasks = this.state.tasks;
     const idx = this.state.tasks.findIndex((task) => task.id === taskId);
     tasks[idx].done = tasks[idx].done ? false : true;
@@ -116,20 +128,15 @@ class Project extends React.Component {
   }
 
   render() {
-    const clearDoneButton = (
-      <form onSubmit={(event) => this.clearDone(event)}>
-        <input className="border px-2" type="submit" value="Clear done" />
-      </form>
-    );
     return (
       <div className="px-5 py-5">
         <h1 className="font-bold text-lg">Todo</h1>
         <NewTaskEntry addTask={this.addTask} />
         <TaskList
           tasks={this.state.tasks}
-          toggleTaskDone={this.toggleTaskDone}
+          onChangeTaskDone={this.handleChangeTaskDone}
         />
-        {clearDoneButton}
+        <ClearDoneButton clearDone={this.clearDone} />
       </div>
     );
   }
