@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './tailwind.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./tailwind.css";
 
 const DEFAULT_TASKS = [
-  { id: 0, done: true, text: 'Buy milk' },
-  { id: 1, done: false, text: 'Call mum' },
-]
+  { id: 0, done: true, text: "Buy milk" },
+  { id: 1, done: false, text: "Call mum" },
+];
 
 class NewTaskEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      taskText: '',
+      taskText: "",
     };
   }
 
@@ -23,17 +23,17 @@ class NewTaskEntry extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.taskText === '') {
+    if (this.state.taskText === "") {
       return;
     }
     this.props.addTask(this.state.taskText);
     this.setState({
-      taskText: '',
+      taskText: "",
     });
   };
 
   render() {
-    const isTask = this.state.taskText !== '';
+    const isTask = this.state.taskText !== "";
     return (
       <form onSubmit={this.handleSubmit}>
         <input
@@ -44,7 +44,7 @@ class NewTaskEntry extends React.Component {
           onChange={this.handleChange}
         />
         <input
-          className={'border mx-2 px-2 ' + (isTask ? '' : 'text-gray-400')}
+          className={"border mx-2 px-2 " + (isTask ? "" : "text-gray-400")}
           type="submit"
           value="Add task"
         />
@@ -55,10 +55,10 @@ class NewTaskEntry extends React.Component {
 
 function ClearDoneButton(props) {
   return (
-      <form onSubmit={props.clearDone}>
-        <input className="border px-2" type="submit" value="Clear done" />
-      </form>
-  )
+    <form onSubmit={props.clearDone}>
+      <input className="border px-2" type="submit" value="Clear done" />
+    </form>
+  );
 }
 
 function TaskListItem(props) {
@@ -71,12 +71,12 @@ function TaskListItem(props) {
           type="checkbox"
           className="mr-2"
         />
-        <span className={props.task.done ? 'line-through text-gray-400' : ''}>
+        <span className={props.task.done ? "line-through text-gray-400" : ""}>
           {props.task.text}
         </span>
       </label>
     </li>
-  )
+  );
 }
 
 function TaskList(props) {
@@ -94,7 +94,7 @@ class Project extends React.Component {
     super(props);
     this.state = {
       tasks: DEFAULT_TASKS,
-      projectName: "Project"
+      projectName: "Project",
     };
   }
 
@@ -105,7 +105,7 @@ class Project extends React.Component {
     this.setState({
       tasks,
     });
-  }
+  };
 
   addTask = (taskText) => {
     const tasks = this.state.tasks;
@@ -116,14 +116,14 @@ class Project extends React.Component {
       // put new task at start of list
       tasks: [{ done: false, text: taskText, id: maxId + 1 }].concat(tasks),
     });
-  }
+  };
 
   clearDone = (event) => {
     event.preventDefault();
     this.setState({
       tasks: this.state.tasks.filter((task) => !task.done),
     });
-  }
+  };
 
   render() {
     return (
@@ -146,7 +146,7 @@ function App() {
       <Project />
       <Project />
     </div>
-  )
+  );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
