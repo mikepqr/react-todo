@@ -2,34 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './tailwind.css';
 
-class Tasklist extends React.Component {
-  handleChange(_, taskId) {
-    this.props.toggleTaskDone(taskId);
-  }
-
-  render() {
-    const items = this.props.tasks.map((task) => (
-      <li key={task.id}>
-        <label>
-          <input
-            defaultChecked={task.done}
-            // onChange is passed a single argument, the event, by the browser. We
-            // need it to know about the task.id, so we make it a closure.
-            onChange={(event) => this.handleChange(event, task.id)}
-            type="checkbox"
-            className="mr-2"
-          />
-          <span className={task.done ? 'line-through text-gray-400' : ''}>
-            {task.text}
-          </span>
-        </label>
-      </li>
-    ));
-    return <ul className="list-none my-2">{items}</ul>;
-  }
-}
-
-class Taskentry extends React.Component {
+class NewTaskEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +48,34 @@ class Taskentry extends React.Component {
   }
 }
 
-class App extends React.Component {
+class TaskList extends React.Component {
+  handleChange(_, taskId) {
+    this.props.toggleTaskDone(taskId);
+  }
+
+  render() {
+    const items = this.props.tasks.map((task) => (
+      <li key={task.id}>
+        <label>
+          <input
+            defaultChecked={task.done}
+            // onChange is passed a single argument, the event, by the browser. We
+            // need it to know about the task.id, so we make it a closure.
+            onChange={(event) => this.handleChange(event, task.id)}
+            type="checkbox"
+            className="mr-2"
+          />
+          <span className={task.done ? 'line-through text-gray-400' : ''}>
+            {task.text}
+          </span>
+        </label>
+      </li>
+    ));
+    return <ul className="list-none my-2">{items}</ul>;
+  }
+}
+
+class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -122,8 +122,8 @@ class App extends React.Component {
     return (
       <div className="px-5 py-5">
         <h1 className="font-bold text-lg">Todo</h1>
-        <Taskentry addTask={(taskText) => this.addTask(taskText)} />
-        <Tasklist
+        <NewTaskEntry addTask={(taskText) => this.addTask(taskText)} />
+        <TaskList
           tasks={this.state.tasks}
           toggleTaskDone={(taskId) => this.toggleTaskDone(taskId)}
         />
@@ -133,4 +133,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Project />, document.getElementById('root'));
