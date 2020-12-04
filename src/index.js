@@ -93,7 +93,8 @@ class Project extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: DEFAULT_TASKS
+      tasks: DEFAULT_TASKS,
+      projectName: "Project"
     };
   }
 
@@ -127,7 +128,7 @@ class Project extends React.Component {
   render() {
     return (
       <div className="px-5 py-5">
-        <h1 className="font-bold text-lg">Todo</h1>
+        <h1 className="font-bold text-lg">{this.state.projectName}</h1>
         <NewTaskEntry addTask={this.addTask} />
         <TaskList
           tasks={this.state.tasks}
@@ -139,4 +140,13 @@ class Project extends React.Component {
   }
 }
 
-ReactDOM.render(<Project />, document.getElementById('root'));
+function App() {
+  return (
+    <div>
+      <Project />
+      <Project />
+    </div>
+  )
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
