@@ -84,6 +84,8 @@ class Project extends React.Component {
         { id: 1, done: false, text: 'Call mum' },
       ],
     };
+    this.toggleTaskDone = this.toggleTaskDone.bind(this);
+    this.addTask = this.addTask.bind(this);
   }
 
   toggleTaskDone(taskId) {
@@ -122,10 +124,10 @@ class Project extends React.Component {
     return (
       <div className="px-5 py-5">
         <h1 className="font-bold text-lg">Todo</h1>
-        <NewTaskEntry addTask={(taskText) => this.addTask(taskText)} />
+        <NewTaskEntry addTask={this.addTask} />
         <TaskList
           tasks={this.state.tasks}
-          toggleTaskDone={(taskId) => this.toggleTaskDone(taskId)}
+          toggleTaskDone={this.toggleTaskDone}
         />
         {clearDoneButton}
       </div>
