@@ -49,7 +49,7 @@ function ClearDoneButton(props) {
 
 function TaskListItem(props) {
   return (
-    <li key={props.task.id}>
+    <li>
       <label>
         <input
           defaultChecked={props.task.done}
@@ -67,7 +67,7 @@ function TaskListItem(props) {
 
 function TaskList(props) {
   const items = props.tasks.map((task) => (
-    <TaskListItem
+    <TaskListItem key={task.id}
       task={task}
       onChangeTaskIdDone={() => props.onChangeTaskDone(task.id)}
     />
