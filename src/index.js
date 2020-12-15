@@ -26,7 +26,7 @@ const NewTaskEntry = (props) => {
       <input
         className="border"
         type="text"
-        autofocus="autofocus"
+        autoFocus="autofocus"
         value={taskText}
         onChange={(event) => setTaskText(event.target.value)}
       />
