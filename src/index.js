@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./tailwind.css";
 
@@ -7,50 +7,36 @@ const DEFAULT_TASKS = [
   { id: 1, done: false, text: "Call mum" },
 ];
 
-class NewTaskEntry extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      taskText: "",
-    };
-  }
+const NewTaskEntry = (props) => {
+  const [taskText, setTaskText] = useState("");
 
-  handleChange = (event) => {
-    this.setState({
-      taskText: event.target.value,
-    });
-  };
-
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.taskText === "") {
+    if (taskText === "") {
       return;
     }
-    this.props.addTask(this.state.taskText);
-    this.setState({
-      taskText: "",
-    });
+    props.addTask(taskText);
+    setTaskText("");
   };
 
-  render() {
-    const isTask = this.state.taskText !== "";
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          className="border"
-          type="text"
-          autofocus="autofocus"
-          value={this.state.taskText}
-          onChange={this.handleChange}
-        />
-        <input
-          className={"border mx-2 px-2 " + (isTask ? "" : "text-gray-400")}
-          type="submit"
-          value="Add task"
-        />
-      </form>
-    );
-  }
+  const isTask = taskText !== "";
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        className="border"
+        type="text"
+        autofocus="autofocus"
+        value={taskText}
+        onChange={(event) => setTaskText(event.target.value)}
+      />
+      <input
+        className={"border mx-2 px-2 " + (isTask ? "" : "text-gray-400")}
+        type="submit"
+        value="Add task"
+      />
+    </form>
+  );
 }
 
 function ClearDoneButton(props) {
